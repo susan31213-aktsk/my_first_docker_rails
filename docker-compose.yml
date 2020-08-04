@@ -1,0 +1,22 @@
+# This file describes the services that comprise your app (a database and a web app),
+# how to get each one’s Docker image (the database just runs on a pre-made PostgreSQL image,
+# and the web app is built from the current directory), and the configuration needed to link them together and expose the web app’s port.
+
+# changes to the Gemfile or the Dockerfile, should be the only times you’ll need to rebuild.
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/myapp
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
