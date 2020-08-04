@@ -17,6 +17,13 @@ services:
     volumes:
       - .:/myapp
     ports:
-      - "3001:3000"
+      - "3000:3000"
     depends_on:
       - db
+  nginx:
+    build:
+      context: ./docker/nginx
+    ports:
+      - 80:80
+    depends_on:
+      - web
