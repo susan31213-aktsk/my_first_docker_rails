@@ -22,7 +22,7 @@ services:
       - db
   nginx:
     build:
-      context: ./docker/nginx
+      context: .
     ports:
       - 80:80
     depends_on:
